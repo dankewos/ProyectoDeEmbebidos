@@ -32,7 +32,7 @@ MazeBot es un carrito de laberinto controlado de forma remota desde una app móv
 - **Visual Studio Code** + extensión **PlatformIO**.
 - Cable USB-TTL / programador compatible con ESP32-CAM.
 - (Opcional) **Firebase** para registro de datos.
-- (Opcional) **Fritzing** (diagramas) y **EasyEDA** (PCB).
+- (Opcional) **EasyEDA** (PCB).
 
 ---
 
