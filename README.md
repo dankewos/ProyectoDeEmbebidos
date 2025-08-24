@@ -46,5 +46,5 @@ cd <repo>
 #    PlatformIO: Build → Upload → Monitor Serial (115200)
 
 # 3) Conectar la app móvil
-#    - Modo AP: conéctate al SSID configurado (p.ej., MazeBot-AP)
+#    - Modo AP: conectarse al SSID configurado
 #    - Modo STA: ambos dispositivos en la misma red Wi-Fi
