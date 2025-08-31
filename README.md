@@ -1,17 +1,25 @@
-# MazeBot — Vehículo embebido con ESP32-CAM
+# MazeBot: Vehículo Embebido de Navegación Remota para Resolución de Laberinto
+## Proyecto de Embebidos – Sistema Móvil (Carrito)
+**Autores:**  
+- Aceldo Torres María Grazia | maactorr@espol.edu.ec  
+- Romero Lambogglia Christopher Ariel | chrarome@espol.edu.ec  
 
-**Descripción breve.**  
-MazeBot es un carrito de laberinto controlado de forma remota desde una app móvil (MIT App Inventor). Transmite video en tiempo real con **ESP32-CAM**, registra estadísticas de la partida (tiempo, giros, puntuación) y permite control por voz. Este repositorio contiene el **firmware** y las **configuraciones específicas de la ESP32-CAM** (pines, cámara, modos Wi-Fi y entorno de compilación con PlatformIO).
+## I. INTRODUCCIÓN
+Este documento presenta el diseño y desarrollo del sistema móvil MazeBot, un robot diferencial controlado remotamente mediante una aplicación móvil. Su propósito es brindar una experiencia lúdica y educativa, integrando tecnologías embebidas con **ESP32-CAM**, transmisión de video en tiempo real y control mediante interfaz accesible en MIT App Inventor.  
+El usuario guía al carrito a través de un laberinto físico, mientras el sistema transmite video y registra métricas de desempeño. Se busca estimular habilidades cognitivas relacionadas con la orientación espacial, la toma de decisiones y la planificación estratégica. La inclusión se promueve mediante **control por voz** para usuarios con movilidad reducida.
+
+## II. ALCANCE Y LIMITACIONES
+### A. Alcance
+- **Sistema Móvil (Hardware y Electrónica):** Carrito diferencial con ESP32-CAM, motores DC y módulo BMS. Diseñado para moverse en un laberinto, ofreciendo una experiencia educativa y accesible.  
+- **Interfaz de Usuario:** Control remoto desde la app móvil (botones direccionales y comandos de voz), transmisión de video y estadísticas personalizadas.  
+- **Detección y Retroalimentación:** Sensores IR y métricas de recorrido como tiempo, giros y puntuación, con gráficas de trayectoria.  
+- **Inclusión y Orientación Educativa:** Dirigido a estudiantes de colegio para prácticas cognitivas, pero utilizable por cualquier persona. El mando por voz amplía la accesibilidad.
+•	Sistema MazeBot (Hardware y Electrónica): El proyecto comprende un robot móvil diferencial diseñado para desplazarse dentro de un laberinto controlado, permitiendo ejecutar tareas de exploración, recorrido y resolución de trayectorias. Su funcionalidad principal es ofrecer una experiencia lúdico-educativa en la que los usuarios puedan interactuar con el entorno, considerando accesibilidad mediante controles simples e inclusión al permitir su uso por distintos perfiles de estudiantes. Incluye un robot móvil diferencial con ESP32-CAM, motores DC, baterías 18650 con módulo BMS y un regulador de voltaje. Todo se integra en una PCB compacta, diseñada para facilitar ensamblaje y operación eficiente. El MazeBot opera en una maqueta de laberinto que constituye su entorno de prueba.
+•	Interfaz de Usuario (Aplicación móvil y control): La aplicación, desarrollada en MIT App Inventor, permite control remoto mediante botones direccionales o comandos de voz. Integra transmisión de video en tiempo real, configuración del juego y visualización de estadísticas personalizadas.
+•	Sistema de Detección y Registro de Estadísticas: Emplea sensores IR en la entrada y salida del laberinto para detectar inicio y fin de recorrido. Se registran métricas como tiempo total, cantidad de giros, puntuación por stickers y se genera una gráfica de la trayectoria, ofreciendo retroalimentación visual y cuantitativa.
+•	Orientación Educativa e Inclusiva: El sistema está orientado principalmente a alumnos de colegio como herramienta para aprender y practicar actividades cognitivas relacionadas con la planificación, la memoria y la resolución de problemas. No obstante, cualquier persona puede utilizarlo con fines recreativos o de entrenamiento cognitivo. El control por voz constituye una función inclusiva que amplía la accesibilidad del sistema.
 
 ---
-
-## Características
-- Control de motores DC mediante driver
-- Sensores IR/sensor de contacto para eventos de inicio/fin y colisiones.
-- App móvil (MIT App Inventor) para control por botones y voz.
-- Opción de enviar datos a **Firebase** (tiempos, puntuación, trayectoria).
----
-
 ## Configuración ESP32-CAM (incluida en este repo)
 - **Modelo de cámara:** AI-Thinker (preconfigurado).
 - **GPIO asignados**
@@ -23,16 +31,15 @@ MazeBot es un carrito de laberinto controlado de forma remota desde una app móv
   | IN4  | 14   |
 - **Sensor de contacto:** pin **configurable** (por defecto: documentado en el código).
 - **Alimentación:** pines **5V** (entrada a regulador/driver), **3.3V** (lógica), y **GND** comunes.
-- **Wi-Fi:** modos **AP** y **STA** (credenciales y SSID/AP definidos en el código).
+- **Wi-Fi:** modos **STA** (credenciales y SSID/AP definidos en el código).
 - **Entorno:** `platformio.ini` preparado para **ESP32-CAM** (board `esp32cam`), con monitor serie a 115200 baudios.
 
 ---
-
 ## Requisitos
 - **Visual Studio Code** + extensión **PlatformIO**.
 - Cable USB-TTL / programador compatible con ESP32-CAM.
-- (Opcional) **Firebase** para registro de datos.
-- (Opcional) **EasyEDA** (PCB).
+- **Firebase** para registro de datos.
+-  **EasyEDA** (PCB).
 
 ---
 
@@ -48,3 +55,58 @@ cd <repo>
 # 3) Conectar la app móvil
 #    - Modo AP: conectarse al SSID configurado
 #    - Modo STA: ambos dispositivos en la misma red Wi-Fi
+```
+---
+
+
+### B. Limitaciones
+- Dependencia de conexión Wi-Fi estable (modo STA).  
+- No implementa navegación autónoma ni visión computacional.  
+- Uso restringido a interiores sin protección contra polvo o humedad.  
+- Almacenamiento limitado, sin integración en la nube.  
+
+---
+
+## III. DIAGRAMAS EXPLICATIVOS
+### A. Diagrama de bloques del carrito
+Representa la arquitectura electrónica del MazeBot:  
+- ESP32-CAM como microcontrolador central.  
+- Sistema de alimentación: 2 baterías 18650 en serie (7.4V, 4200mAh), módulo BMS y regulador de voltaje.  
+- Driver L298N para control de motores DC.  
+- Sensores de contacto para detección de colisiones.  
+
+### B. Máquina de estados del carrito
+Control de arranque, movimiento y retroalimentación de estados del robot mediante transiciones lógicas.
+
+---
+
+## IV. ALTERNATIVAS DE DISEÑO
+- **Microcontrolador:** ESP32-CAM seleccionado por costo, eficiencia y simplicidad frente a Arduino UNO + WiFi y Raspberry Pi Zero W.  
+- **Alimentación:** 2x 18650 en serie, elegidas sobre PowerBank o LiPo por seguridad y autonomía.  
+- **Comunicación:** Modo **STA**, con proyección a AP/STA para redundancia y configuración inicial.  
+- **Control de motores:** L298N elegido por disponibilidad y capacidad (2A por canal), con control PWM a 1kHz.  
+
+---
+
+## V. PLAN DE TEST Y VALIDACIÓN
+- **Pruebas funcionales:** Control remoto desde app, transmisión de video, detección de sensores IR y registro de métricas.  
+- **Métricas:** Latencia de video, estabilidad Wi-Fi, detección de eventos, consumo energético.  
+- **Escenarios:** Recorridos completos en maqueta, detección de stickers, repetición de pruebas en condiciones variadas.  
+
+---
+
+## VI. CONSIDERACIONES TÉCNICAS
+- Inclusión mediante **control por voz**.  
+- Privacidad con futura integración de cifrado AES y autenticación.  
+- Seguridad eléctrica con BMS y reguladores.  
+- Fines educativos, sin monetización.  
+- Potencial evolución hacia **visión computacional** y **navegación autónoma**.  
+
+---
+
+## VII. REFERENCIAS
+[1] D. Zhu et al., *Advanced Drug Delivery Reviews*, vol. 138, 2019.  
+[2] G. Galeano, *Programación de sistemas embebidos en C*, Alfaomega, 2011.  
+[3] E. J. Chancay Sancán Quimis, Tesis de Ingeniería, UNESUM, 2024.  
+[4] P. F. Salazar, Trabajo de grado, UNAD, 2024.  
+
