@@ -62,46 +62,55 @@ cd <repo>
 
 ## III. DIAGRAMAS EXPLICATIVOS
 ### A. Diagrama de bloques
-Representa la arquitectura electrónica del MazeBot:  
-- ESP32-CAM como microcontrolador central.  
-- Sistema de alimentación: 2 baterías 18650 en serie (7.4V, 4200mAh), módulo BMS y regulador de voltaje.  
-- Driver L298N para control de motores DC.  
-- Sensores de contacto para detección de colisiones.
-- 
 ![Diagrama 1](img/diagrama1.jpg)
 
+El diagrama de bloques del MazeBot presenta la arquitectura electrónica del vehículo que recorre el laberinto. En el centro se encuentra el ESP32-CAM, el microcontrolador del sistema móvil, responsable de recibir comandos, controlar los actuadores y transmitir video en tiempo real. A su izquierda, se muestra el sistema de alimentación, compuesto por dos baterías 18650, un interruptor, un módulo de protección de baterías y un regulador de voltaje que permitirá administrar los 5V que necesita el microcontrolador. Es alimentado con dos baterías de litio de 3.7V y 4200mAh conectadas en serie por lo que recibe aproximadamente 7.4V y, dado que el sistema en total y en movimiento consume entre 600 y 1000mA, durará un máximo 4 horas y 30 minutos.
+Hacia la derecha del microcontrolador, se conectan los sensores de contacto, que permiten detectar colisiones o interacciones del carrito con las paredes del laberinto. También se incluye un driver L298N, que controla el movimiento de los motores DC que impulsan al MazeBot. Toda esta información y actividad del sistema es registrada en una base de datos remota mediante comunicación WiFi, el microcontrolador se encuentra en modo STA (Station), y además envía y recibe comandos HTTP para el control del MazeBot y la retroalimentación del usuario lo que permite llevar un control estadístico del rendimiento del carrito y su interacción con el entorno. En conjunto, el diseño asegura un funcionamiento autónomo, estable y conectado del vehículo.
+
 ### B. Máquina de estados del carrito
-Control de arranque, movimiento y retroalimentación de estados del robot mediante transiciones lógicas.
+La Figura 4 muestra el diagrama de estados diseñado para el control del sistema general. El modelo contempla cuatro estados principales: a, b, c y d, cada uno asociado a combinaciones específicas de entradas (Start, Inicio de carrera, Fin de carrera y Reset). Desde el estado inicial a, al activarse la señal de inicio (St=1), el sistema transita a b, donde se habilita la salida del carro (EC=1). Posteriormente, las condiciones de sensores de carrera determinan las transiciones hacia los estados c y d, en los cuales se controlan el semáforo (Sm) y la barrera (B). Finalmente, ante la señal de reinicio (R=1), el sistema retorna al estado inicial. En conjunto, este diagrama describe el comportamiento secuencial del sistema, asegurando que las acciones de apertura, paso y cierre se realicen en orden lógico y seguro.
+D.	Diagrama de interfaces
+
+
+### C. Diagrama de interfaces
+Especifica las relaciones entre los distintos subsistemas existentes en el proyecto. 
+![Diagrama 1](img/diagrama3.jpg)
 
 ---
 
 ## IV. ALTERNATIVAS DE DISEÑO
-- **Microcontrolador:** ESP32-CAM seleccionado por costo, eficiencia y simplicidad frente a Arduino UNO + WiFi y Raspberry Pi Zero W.  
-- **Alimentación:** 2x 18650 en serie, elegidas sobre PowerBank o LiPo por seguridad y autonomía.  
-- **Comunicación:** Modo **STA**, con proyección a AP/STA para redundancia y configuración inicial.  
-- **Control de motores:** L298N elegido por disponibilidad y capacidad (2A por canal), con control PWM a 1kHz.  
+En la selección del microcontrolador se evaluaron tres alternativas: ESP32-CAM, Arduino UNO con WiFi Shield y Raspberry Pi Zero W. El análisis incluyó criterios de costo, consumo energético, capacidad de procesamiento, memoria, conectividad y facilidad de integración. El ESP32-CAM fue finalmente elegido por su excelente relación costo-beneficio, ya que por un precio reducido integra Wi-Fi y cámara en un solo módulo, lo reduce la complejidad de diseño y los posibles puntos de fallo. Además, ofrece un consumo energético más bajo en comparación con las otras opciones y un rendimiento superior al Arduino UNO, gracias a su procesador dual-core de 240 MHz y 520 KB de SRAM. Frente a la Raspberry Pi Zero W, aunque esta última cuenta con mayor potencia de procesamiento y memoria, el ESP32-CAM resulta más eficiente, compacto y sencillo de programar, lo que lo convierte en la opción más adecuada para un sistema móvil como el MazeBot, donde la ligereza, la autonomía y la simplicidad de implementación son factores clave.
+
+Para la alimentación, se seleccionaron dos baterías 18650 en serie (7.4V, 4200mAh), que ofrecen suficiente capacidad y corriente de descarga para los motores y el sistema. Se descartaron opciones como PowerBanks y baterías AA por limitaciones de corriente y autonomía, y las LiPo por requerir cargadores especializados.
+
+El sistema incluye un módulo BMS TP4056 con protecciones contra sobrecarga, sobre descarga, cortocircuitos y sobrecalentamiento, garantizando seguridad y prolongando la vida útil de las baterías. En cuanto a la comunicación, se optó por utilizar el modo Station (STA) del ESP32, ya que permite conectar el MazeBot a una red Wi-Fi local para acceder a servicios en la nube como Firebase y garantizar un control remoto estable. Sin embargo, se considera que en futuras versiones el uso del modo dual AP/STA sería especialmente útil: el dispositivo podría crear su propia red para la configuración inicial o como respaldo en caso de pérdida de conexión a internet, asegurando redundancia y menor latencia en los comandos críticos.
+
+Finalmente, para el control de motores se seleccionó el driver L298N por su capacidad de manejar corrientes de hasta 2A por canal, su bajo costo y amplia disponibilidad. Aunque existen alternativas más eficientes como el DRV8833, su mayor costo y menor accesibilidad local hicieron que el L298N resultara más adecuado, implementando control de velocidad mediante PWM a 1kHz.
 
 ---
 
 ## V. PLAN DE TEST Y VALIDACIÓN
-- **Pruebas funcionales:** Control remoto desde app, transmisión de video, detección de sensores IR y registro de métricas.  
-- **Métricas:** Latencia de video, estabilidad Wi-Fi, detección de eventos, consumo energético.  
-- **Escenarios:** Recorridos completos en maqueta, detección de stickers, repetición de pruebas en condiciones variadas.  
+El plan de pruebas TP-MAZEBOT tiene como objetivo verificar que el prototipo MazeBot cumple con sus funcionalidades clave, como el control remoto desde la app, la transmisión de video en tiempo real, la detección de eventos mediante sensores y el registro de estadísticas. El alcance se centra en evaluar la interacción del usuario con el robot mediante comunicación Wi-Fi, la respuesta de los sensores infrarrojos, la recolección de datos del recorrido y el monitoreo del consumo energético del sistema.
+
+Las métricas de validación incluyen: Verificación de conexión a la base de datos, lecturas en tiempo real de la base de datos (inst.). Inicialización de servidor de cámara, latencia promedio de transmisión de video (ms), tiempo total de recorrido (s), detecciones exitosas de sensores IR (estate 0/1) y estabilidad de la conexión Wi-Fi (tiempo medio de reconexión en caso de falla) delays.
+
+La estrategia de prueba consiste en realizar pruebas funcionales en una maqueta física que simula condiciones reales de uso, incluyendo recorridos completos y detección de stickers. Estas pruebas se repetirán en diferentes escenarios para evaluar la fiabilidad del sistema. Se requieren recursos como el MazeBot ensamblado, la app móvil desarrollada en MIT App Inventor, una maqueta de laberinto, fuente de alimentación estable y herramientas de monitoreo. Se consideran riesgos como fallos en sensores, desconexión Wi-Fi y sobrecalentamiento, con medidas de mitigación específicas. Además, el correcto funcionamiento depende de una conexión Wi-Fi estable, un smartphone Android y el firmware adecuado en la ESP32-CAM.
 
 ---
 
 ## VI. CONSIDERACIONES TÉCNICAS
-- Inclusión mediante **control por voz**.  
-- Privacidad con futura integración de cifrado AES y autenticación.  
-- Seguridad eléctrica con BMS y reguladores.  
-- Fines educativos, sin monetización.  
-- Potencial evolución hacia **visión computacional** y **navegación autónoma**.  
+El proyecto MazeBot incorpora principios éticos fundamentales en su diseño y uso, priorizando la accesibilidad, la privacidad de los usuarios, y el impacto social positivo. La inclusión se promueve mediante el control por voz, permitiendo que personas con movilidad reducida interactúen con el sistema. En cuanto a la privacidad, aunque actualmente no se almacena información en la nube, se considera implementar medidas de cifrado y control de acceso para proteger futuras estadísticas y datos de recorrido.
+
+En cuanto a la privacidad, aunque actualmente no se almacenan datos de usuarios, se contempla integrar protocolos de cifrado AES y autenticación por contraseña o token para garantizar la protección de futuras estadísticas.
+Además, se asegura la seguridad eléctrica del sistema mediante el uso de BMS, reguladores de voltaje y pruebas de estrés para evitar fallos como sobrecalentamientos o cortocircuitos. El propósito del MazeBot es estrictamente educativo, evitando usos comerciales o monetización que desvíen su objetivo formativo. Además, su diseño transparente y completamente documentado permite la réplica y mejora del sistema por parte de otros, fomentando una cultura de aprendizaje abierto y ético dentro del ámbito de la ingeniería.
+
+Finalmente, se proyecta como línea futura de innovación la integración de algoritmos de visión computacional y navegación autónoma en el MazeBot, lo cual permitiría resolver laberintos sin intervención humana. Esta evolución consolidaría el prototipo como una plataforma versátil para investigación en inteligencia artificial embebida y robótica educativa.
 
 ---
 
 ## VII. REFERENCIAS
-[1] D. Zhu et al., *Advanced Drug Delivery Reviews*, vol. 138, 2019.  
-[2] G. Galeano, *Programación de sistemas embebidos en C*, Alfaomega, 2011.  
-[3] E. J. Chancay Sancán Quimis, Tesis de Ingeniería, UNESUM, 2024.  
-[4] P. F. Salazar, Trabajo de grado, UNAD, 2024.  
+[1] D. Zhu, S. Roy, Z. Liu, H. Weller, W. J. Parak y N. Feliu, “Remotely controlled opening of delivery vehicles and release of cargo by external triggers,” Advanced Drug Delivery Reviews, vol. 138, pp. 117–132, ene. 2019, doi: 10.1016/j.addr.2018.10.003.
+[2] G. Galeano, Programación de sistemas embebidos en C: teoría y prácticas aplicadas a cualquier microcontrolador, 1ª ed. México: Alfaomega Grupo Editor, 2011. ISBN: 978-958-682-770-6.
+[3] E. J. Chancay Sancán Quimis, “Implementación de fuente de alimentación dual”, Tesis de ingeniería, Universidad Estatal del Sur de Manabí (UNESUM), 2024.
+[4] P. F. Salazar, “Análisis de la seguridad del protocolo de transporte MQTT en dispositivos para internet de las cosas,” Trabajo de grado (Especialización en Seguridad Informática), Universidad Nacional Abierta y a Distancia (UNAD), 2024.
 
