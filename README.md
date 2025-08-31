@@ -6,7 +6,7 @@
 
 ## I. INTRODUCCIÓN
 Este documento presenta el diseño y desarrollo del sistema móvil MazeBot, un robot diferencial controlado remotamente mediante una aplicación móvil. Su propósito es brindar una experiencia lúdica y educativa, integrando tecnologías embebidas con **ESP32-CAM**, transmisión de video en tiempo real y control mediante interfaz accesible en MIT App Inventor.  
-El usuario guía al carrito a través de un laberinto físico, mientras el sistema transmite video y registra métricas de desempeño. Se busca estimular habilidades cognitivas relacionadas con la orientación espacial, la toma de decisiones y la planificación estratégica. La inclusión se promueve mediante **control por voz** para usuarios con movilidad reducida.
+El usuario guía al MazeBot a través de un laberinto físico (https://github.com/dankewos/ProyectoDeEmbebidos2.git), mientras el sistema transmite video y registra métricas de desempeño. Se busca estimular habilidades cognitivas relacionadas con la orientación espacial, la toma de decisiones y la planificación estratégica. La inclusión se promueve mediante **control por voz** para usuarios con movilidad reducida.
 
 ## Configuración ESP32-CAM (incluida en este repo)
 - **Modelo de cámara:** AI-Thinker (preconfigurado).
@@ -58,16 +58,16 @@ cd <repo>
 - Entorno: El sistema está diseñado exclusivamente para interiores, sin protección contra polvo, humedad o interferencias externas, por lo que su uso está limitado a ambientes hostiles.
 - Almacenamiento: Actualmente no incluye integración en la nube ni almacenamiento permanente, aunque se contempla como posible mejora futura para análisis remoto o historial de partidas.
 
-
 ---
 
 ## III. DIAGRAMAS EXPLICATIVOS
-### A. Diagrama de bloques del carrito
+### A. Diagrama de bloques
 Representa la arquitectura electrónica del MazeBot:  
 - ESP32-CAM como microcontrolador central.  
 - Sistema de alimentación: 2 baterías 18650 en serie (7.4V, 4200mAh), módulo BMS y regulador de voltaje.  
 - Driver L298N para control de motores DC.  
-- Sensores de contacto para detección de colisiones.  
+- Sensores de contacto para detección de colisiones.
+![Diagrama 1](C:/Users/maria/Downloads/diagrama1.png)
 
 ### B. Máquina de estados del carrito
 Control de arranque, movimiento y retroalimentación de estados del robot mediante transiciones lógicas.
