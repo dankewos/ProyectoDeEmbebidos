@@ -67,7 +67,8 @@ Representa la arquitectura electrónica del MazeBot:
 - Sistema de alimentación: 2 baterías 18650 en serie (7.4V, 4200mAh), módulo BMS y regulador de voltaje.  
 - Driver L298N para control de motores DC.  
 - Sensores de contacto para detección de colisiones.
-![Diagrama 1](img/diagrama1.png)
+- 
+![Diagrama 1](img/diagrama1.jpg)
 
 ### B. Máquina de estados del carrito
 Control de arranque, movimiento y retroalimentación de estados del robot mediante transiciones lógicas.
