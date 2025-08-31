@@ -8,14 +8,6 @@
 Este documento presenta el diseño y desarrollo del sistema móvil MazeBot, un robot diferencial controlado remotamente mediante una aplicación móvil. Su propósito es brindar una experiencia lúdica y educativa, integrando tecnologías embebidas con **ESP32-CAM**, transmisión de video en tiempo real y control mediante interfaz accesible en MIT App Inventor.  
 El usuario guía al carrito a través de un laberinto físico, mientras el sistema transmite video y registra métricas de desempeño. Se busca estimular habilidades cognitivas relacionadas con la orientación espacial, la toma de decisiones y la planificación estratégica. La inclusión se promueve mediante **control por voz** para usuarios con movilidad reducida.
 
-## II. ALCANCE Y LIMITACIONES
-### A. Alcance
-- **Sistema MazeBot (Hardware y Electrónica):**: El proyecto comprende un robot móvil diferencial diseñado para desplazarse dentro de un laberinto controlado, permitiendo ejecutar tareas de exploración, recorrido y resolución de trayectorias. Su funcionalidad principal es ofrecer una experiencia lúdico-educativa en la que los usuarios puedan interactuar con el entorno, considerando accesibilidad mediante controles simples e inclusión al permitir su uso por distintos perfiles de estudiantes. Incluye un robot móvil diferencial con ESP32-CAM, motores DC, baterías 18650 con módulo BMS y un regulador de voltaje. Todo se integra en una PCB compacta, diseñada para facilitar ensamblaje y operación eficiente. El MazeBot opera en una maqueta de laberinto que constituye su entorno de prueba.  
-- **Interfaz de Usuario:** (Aplicación móvil y control): La aplicación, desarrollada en MIT App Inventor, permite control remoto mediante botones direccionales o comandos de voz. Integra transmisión de video en tiempo real, configuración del juego y visualización de estadísticas personalizadas.  
-- **Detección y Retroalimentación:** Emplea sensores IR en la entrada y salida del laberinto para detectar inicio y fin de recorrido. Se registran métricas como tiempo total, cantidad de giros, puntuación por stickers y se genera una gráfica de la trayectoria, ofreciendo retroalimentación visual y cuantitativa.
-- **Orientación Educativa e Inclusiva:** El sistema está orientado principalmente a alumnos de colegio como herramienta para aprender y practicar actividades cognitivas relacionadas con la planificación, la memoria y la resolución de problemas. No obstante, cualquier persona puede utilizarlo con fines recreativos o de entrenamiento cognitivo. El control por voz constituye una función inclusiva que amplía la accesibilidad del sistema.
-
----
 ## Configuración ESP32-CAM (incluida en este repo)
 - **Modelo de cámara:** AI-Thinker (preconfigurado).
 - **GPIO asignados**
@@ -52,14 +44,20 @@ cd <repo>
 #    - Modo AP: conectarse al SSID configurado
 #    - Modo STA: ambos dispositivos en la misma red Wi-Fi
 ```
+
+## II. ALCANCE Y LIMITACIONES
+### A. Alcance
+- **Sistema MazeBot (Hardware y Electrónica):**: El proyecto comprende un robot móvil diferencial diseñado para desplazarse dentro de un laberinto controlado, permitiendo ejecutar tareas de exploración, recorrido y resolución de trayectorias. Su funcionalidad principal es ofrecer una experiencia lúdico-educativa en la que los usuarios puedan interactuar con el entorno, considerando accesibilidad mediante controles simples e inclusión al permitir su uso por distintos perfiles de estudiantes. Incluye un robot móvil diferencial con ESP32-CAM, motores DC, baterías 18650 con módulo BMS y un regulador de voltaje. Todo se integra en una PCB compacta, diseñada para facilitar ensamblaje y operación eficiente. El MazeBot opera en una maqueta de laberinto que constituye su entorno de prueba.  
+- **Interfaz de Usuario:** (Aplicación móvil y control): La aplicación, desarrollada en MIT App Inventor, permite control remoto mediante botones direccionales o comandos de voz. Integra transmisión de video en tiempo real, configuración del juego y visualización de estadísticas personalizadas.  
+- **Detección y Retroalimentación:** Emplea sensores IR en la entrada y salida del laberinto para detectar inicio y fin de recorrido. Se registran métricas como tiempo total, cantidad de giros, puntuación por stickers y se genera una gráfica de la trayectoria, ofreciendo retroalimentación visual y cuantitativa.
+- **Orientación Educativa e Inclusiva:** El sistema está orientado principalmente a alumnos de colegio como herramienta para aprender y practicar actividades cognitivas relacionadas con la planificación, la memoria y la resolución de problemas. No obstante, cualquier persona puede utilizarlo con fines recreativos o de entrenamiento cognitivo. El control por voz constituye una función inclusiva que amplía la accesibilidad del sistema.
 ---
 
-
 ### B. Limitaciones
-- Dependencia de conexión Wi-Fi estable (modo STA).  
-- No implementa navegación autónoma ni visión computacional.  
-- Uso restringido a interiores sin protección contra polvo o humedad.  
-- Almacenamiento limitado, sin integración en la nube.  
+- Respecto a funcionalidad: El MazeBot depende completamente del control manual; no integra navegación autónoma ni algoritmos de resolución de laberintos. Tampoco implementa visión computacional avanzada para identificación de objetos de interés. Además, depende bastante de la conexión a la red puesto que funciona con WiFi, pero no como AccessPoint.
+- Entorno: El sistema está diseñado exclusivamente para interiores, sin protección contra polvo, humedad o interferencias externas, por lo que su uso está limitado a ambientes hostiles.
+- Almacenamiento: Actualmente no incluye integración en la nube ni almacenamiento permanente, aunque se contempla como posible mejora futura para análisis remoto o historial de partidas.
+
 
 ---
 
