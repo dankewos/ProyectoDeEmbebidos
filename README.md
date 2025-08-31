@@ -1,5 +1,5 @@
 # MazeBot: Vehículo Embebido de Navegación Remota para Resolución de Laberinto
-## Proyecto de Embebidos – Sistema Móvil (Carrito)
+## Proyecto de Embebidos – Sistema Móvil
 **Autores:**  
 - Aceldo Torres María Grazia | maactorr@espol.edu.ec  
 - Romero Lambogglia Christopher Ariel | chrarome@espol.edu.ec  
