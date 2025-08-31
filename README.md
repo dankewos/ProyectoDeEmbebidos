@@ -124,7 +124,10 @@ Finalmente, se proyecta como línea futura de innovación la integración de alg
 
 ## VII. REFERENCIAS
 [1] D. Zhu, S. Roy, Z. Liu, H. Weller, W. J. Parak y N. Feliu, “Remotely controlled opening of delivery vehicles and release of cargo by external triggers,” Advanced Drug Delivery Reviews, vol. 138, pp. 117–132, ene. 2019, doi: 10.1016/j.addr.2018.10.003.
+
 [2] G. Galeano, Programación de sistemas embebidos en C: teoría y prácticas aplicadas a cualquier microcontrolador, 1ª ed. México: Alfaomega Grupo Editor, 2011. ISBN: 978-958-682-770-6.
+
 [3] E. J. Chancay Sancán Quimis, “Implementación de fuente de alimentación dual”, Tesis de ingeniería, Universidad Estatal del Sur de Manabí (UNESUM), 2024.
+
 [4] P. F. Salazar, “Análisis de la seguridad del protocolo de transporte MQTT en dispositivos para internet de las cosas,” Trabajo de grado (Especialización en Seguridad Informática), Universidad Nacional Abierta y a Distancia (UNAD), 2024.
 
