@@ -34,7 +34,7 @@ El usuario guía al MazeBot a través de un laberinto físico (https://github.co
 ## Puesta en marcha rápida
 ```bash
 # 1) Clonar
-git clone https://github.com/<usuario>/<repo>.git
+git clone [https://github.com/<usuario>/<repo>.git](https://github.com/dankewos/ProyectoDeEmbebidos.git)
 cd <repo>
 
 # 2) Abrir en VS Code y compilar con PlatformIO
