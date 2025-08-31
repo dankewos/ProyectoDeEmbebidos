@@ -62,19 +62,32 @@ cd <repo>
 
 ## III. DIAGRAMAS EXPLICATIVOS
 ### A. Diagrama de contexto
+![Diagrama 1](img/contexto.jpg)
+
+Figura 1. Diagrama de contexto del sistema.
+
+El diagrama de contexto de la Figura 1 representa la interacción general entre el sistema y los actores externos que lo rodean. En la esquina superior izquierda se encuentra el MazeBot, un robot autónomo con capacidades de transmisión de video, detección mediante sensores y control remoto. El principal actor externo es el usuario, quien interactúa con el robot a través de una aplicación móvil desarrollada en MIT App Inventor. Esta app se comunica vía Wi-Fi con el MazeBot, enviando comandos de movimiento y recibiendo imágenes en tiempo real. El entorno físico, representado por el laberinto en el centro del diagrama, también influye directamente en el comportamiento del MazeBot, ya que contiene sensores fijos que colaboran con la detección de eventos clave ya que el sistema registra eventos como el inicio y fin del recorrido, así como estadísticas de tiempo, que pueden visualizarse desde la app. 
+
 ### B. Diagrama de bloques
 ![Diagrama 1](img/diagrama1.jpg)
+
 Figura 2. Diagrama de bloques del sistema Móvil de MazeBot
 
 El diagrama de bloques del MazeBot presenta la arquitectura electrónica del vehículo que recorre el laberinto. En el centro se encuentra el ESP32-CAM, el microcontrolador del sistema móvil, responsable de recibir comandos, controlar los actuadores y transmitir video en tiempo real. A su izquierda, se muestra el sistema de alimentación, compuesto por dos baterías 18650, un interruptor, un módulo de protección de baterías y un regulador de voltaje que permitirá administrar los 5V que necesita el microcontrolador. Es alimentado con dos baterías de litio de 3.7V y 4200mAh conectadas en serie por lo que recibe aproximadamente 7.4V y, dado que el sistema en total y en movimiento consume entre 600 y 1000mA, durará un máximo 4 horas y 30 minutos.
 Hacia la derecha del microcontrolador, se conectan los sensores de contacto, que permiten detectar colisiones o interacciones del carrito con las paredes del laberinto. También se incluye un driver L298N, que controla el movimiento de los motores DC que impulsan al MazeBot. Toda esta información y actividad del sistema es registrada en una base de datos remota mediante comunicación WiFi, el microcontrolador se encuentra en modo STA (Station), y además envía y recibe comandos HTTP para el control del MazeBot y la retroalimentación del usuario lo que permite llevar un control estadístico del rendimiento del carrito y su interacción con el entorno. En conjunto, el diseño asegura un funcionamiento autónomo, estable y conectado del vehículo.
 
 ### C. Máquina de estados del MazeBot
+![Diagrama 1](img/estados.jpg)
+
+Figura 3. Diagrama de estados del sistema
+
 La Figura 4 muestra el diagrama de estados diseñado para el control del sistema general. El modelo contempla cuatro estados principales: a, b, c y d, cada uno asociado a combinaciones específicas de entradas (Start, Inicio de carrera, Fin de carrera y Reset). Desde el estado inicial a, al activarse la señal de inicio (St=1), el sistema transita a b, donde se habilita la salida del carro (EC=1). Posteriormente, las condiciones de sensores de carrera determinan las transiciones hacia los estados c y d, en los cuales se controlan el semáforo (Sm) y la barrera (B). Finalmente, ante la señal de reinicio (R=1), el sistema retorna al estado inicial. En conjunto, este diagrama describe el comportamiento secuencial del sistema, asegurando que las acciones de apertura, paso y cierre se realicen en orden lógico y seguro.
 
 ### D. Diagrama de interfaces 
 ![Diagrama 1](img/diagrama3.jpg)
+
 Figura 5. Diagrama de interfaces que muestra la interacción entre componentes y subsistemas
+
 Este diagrama representa la comunicación y relación entre los distintos subsistemas del MazeBot. El MazeBot y la maqueta del laberinto se encuentran conectados entre sí a través de una base de datos central, que actúa como puente de información mediante Wi-Fi. El carro envía datos de su recorrido y estado, mientras que la maqueta detecta eventos clave (inicio y fin) y proporciona retroalimentación visual y auditiva al usuario. De esta forma, ambos subsistemas trabajan de manera coordinada para registrar, procesar y comunicar la información necesaria para la interacción en tiempo real dentro del entorno del laberinto.
 
 ---
